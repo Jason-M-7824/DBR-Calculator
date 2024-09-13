@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBR Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DBR Calculator</h1>
+        <label for="salary">Monthly Salary (ADE):</label>
+        <input type="number" id="salary" placeholder="Enter your salary">
+
+        <label for="creditLimit">Credit Card Limit (ADE):</label>
+        <input type="number" id="creditLimit" placeholder="Enter your credit card limit">
+
+        <label for="loanInstallment">Monthly Loan Installment (ADE):</label>
+        <input type="number" id="loanInstallment" placeholder="Enter your loan installment">
+
+        <button onclick="calculateDBR()">Calculate DBR</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateDBR() {
+            // Get input values
+            var salary = parseFloat(document.getElementById('salary').value);
+            var creditLimit = parseFloat(document.getElementById('creditLimit').value);
+            var loanInstallment = parseFloat(document.getElementById('loanInstallment').value);
+
+            // Validate inputs
+            if (isNaN(salary) || isNaN(creditLimit) || isNaN(loanInstallment) || salary <= 0 || creditLimit <= 0 || loanInstallment < 0) {
+                document.getElementById('result').innerText = 'Please enter valid values.';
+                return;
+            }
+
+            // Calculate credit card payment (5% of credit limit)
+            var creditCardPayment = 0.05 * creditLimit;
+
+            // Calculate total debt payments
+            var totalDebtPayments = loanInstallment + creditCardPayment;
+
+            // Calculate DBR
+            var dbr = (totalDebtPayments / salary) * 100;
+
+            // Calculate remaining space in DBR
+            var maxDBR = 50; // Maximum allowed DBR
+            var remainingSpace = (maxDBR - dbr) * salary / 100;
+
+            // Display results
+            document.getElementById('result').innerHTML =
+                'DBR: ' + dbr.toFixed(2) + '%<br>' +
+                'Space in DBR: ' + remainingSpace.toFixed(2) + ' ADE';
+        }
+    </script>
+</body>
+</html>
